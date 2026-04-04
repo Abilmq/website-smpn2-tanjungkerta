@@ -159,7 +159,7 @@ export default async function Home() {
       <section className="py-32 px-4 md:px-6 relative z-10 bg-white">
 
         <div className="container mx-auto max-w-6xl">
-          <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-16 border-b border-slate-200 pb-6">
+          <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6 mb-16 border-b border-slate-200 pb-6">
             <div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight border-l-8 border-brand-600 pl-4">Artikel Berita</h2>
             </div>
