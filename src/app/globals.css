@@ -1,0 +1,197 @@
+@import "tailwindcss";
+@import "react-quill-new/dist/quill.snow.css";
+
+@theme {
+  --color-brand-50: #f0f7fb;
+  --color-brand-100: #dbeffe;
+  --color-brand-200: #bce1fb;
+  --color-brand-300: #8eccf8;
+  --color-brand-400: #57b1f3;
+  --color-brand-500: #298cd9;
+  --color-brand-600: #0B6FAF; /* Klien Exact Blue */
+  --color-brand-700: #0a5a8f;
+  --color-brand-800: #084976;
+  --color-brand-900: #06314f;
+  
+  --color-accent-400: #f4d570;
+  --color-accent-500: #F2C94C; /* Klien Exact Yellow */
+  --color-accent-600: #d1ab38; 
+  
+  --color-alert-400: #e04b4b;
+  --color-alert-500: #D32F2F; /* Klien Exact Red */
+  --color-alert-600: #a82525; 
+  
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  /* Custom Animations untuk Ticker / Marquee */
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-marquee-fast: marquee 15s linear infinite;
+  --animate-float-slow: float 6s ease-in-out infinite;
+
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(1deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+}
+
+@layer base {
+  :root {
+    --background: #fdfdfd; /* Off-white premium / ivory */
+    --foreground: #111827;
+    --card: #ffffff;
+    --card-foreground: #111827;
+    --muted: #f3f4f6;
+    --muted-foreground: #64748b;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #3b82f6;
+  }
+
+  .dark {
+    --background: #020617;
+    --foreground: #f8fafc;
+    --card: #0f172a;
+    --card-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --border: #1e293b;
+    --input: #1e293b;
+    --ring: #3b82f6;
+  }
+
+  * {
+    @apply border-[var(--border)];
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)] font-sans antialiased selection:bg-brand-500/30;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-800/50 shadow-sm;
+  }
+  
+  .glass-panel {
+    @apply bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-3xl;
+  }
+  
+  /* Hero section dynamic background */
+  .hero-gradient {
+    @apply bg-gradient-to-br from-brand-900 via-brand-800 to-slate-900 relative overflow-hidden;
+  }
+
+  /* Floating Card Aesthetics */
+  .card-floating {
+    @apply bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-800 transition-all duration-300 hover:shadow-md hover:-translate-y-1;
+  }
+
+  /* Pill Buttons -> Rounded Medium/Large for Sharpness */
+  .btn-pill {
+    @apply px-8 py-4 rounded-xl font-semibold transition-all inline-flex items-center justify-center gap-2;
+  }
+
+  /* Blok Asimetris Tegas (Bukan Organik lagi) */
+  .mask-blob {
+    /* Menghapus blob melengkung, mengganti dengan cut-corner tegas (pseudo-clip-path) */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 85% 100%, 0 100%);
+  }
+
+  .mask-organic {
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 15%);
+  }
+
+  /* Decorative Dot Patterns */
+  .bg-dots {
+    background-image: radial-gradient(var(--color-brand-200) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .dark .bg-dots {
+    background-image: radial-gradient(var(--color-slate-800) 1px, transparent 1px);
+  }
+}
+
+/* ===== Quill Rich Text Editor Styling ===== */
+.prose-editor .ql-toolbar {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  border-color: #e2e8f0 !important;
+  background-color: #f8fafc;
+  padding: 8px 12px;
+}
+
+.prose-editor .ql-container {
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  border-color: #e2e8f0 !important;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 0.9375rem;
+  min-height: 200px;
+}
+
+.prose-editor .ql-editor {
+  min-height: 200px;
+  line-height: 1.75;
+  color: #111827;
+  padding: 16px 20px;
+}
+
+.prose-editor .ql-editor.ql-blank::before {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.prose-editor .ql-editor p,
+.prose-editor .ql-editor li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-editor:focus-within .ql-toolbar {
+  border-color: #0B6FAF !important;
+}
+
+.prose-editor:focus-within .ql-container {
+  border-color: #0B6FAF !important;
+}
+
+/* ===== Styling untuk Hasil Render Rich Text (Prose) di Publik ===== */
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose li {
+  margin-bottom: 0.25rem;
+}
+.prose p {
+  margin-bottom: 0.75rem;
+  line-height: 1.75;
+}
+.prose strong {
+  font-weight: 700;
+  color: #111827;
+}
+.prose h1, .prose h2, .prose h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 800;
+}
