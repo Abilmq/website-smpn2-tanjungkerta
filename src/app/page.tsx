@@ -28,12 +28,12 @@ export default async function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-transparent font-sans overflow-x-hidden">
-      
+
       {/* 1. HERO SECTION (Tegas, Premium, Clean Grid) */}
       <section className="relative pt-32 pb-48 px-4 md:px-6 z-0 bg-background overflow-hidden flex flex-col items-start justify-center min-h-[90vh]">
-        
+
         {/* Latar Belakang Foto Lingkungan */}
-        <div 
+        <div
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/Foto-lingkungan.jpg)' }}
         >
@@ -43,27 +43,27 @@ export default async function Home() {
         </div>
 
         <div className="container mx-auto max-w-6xl relative z-10 text-left flex flex-col items-start mt-10">
-          
+
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter text-left mb-8 leading-[1] md:leading-[0.9] drop-shadow-sm">
             SMPN <span className="text-brand-600">2</span><br className="hidden md:block" />
             <span className="relative inline-block z-0 text-slate-900 border-b-8 border-accent-500 pb-2">Tanjungkerta</span>
           </h1>
-          
+
           <p className="text-lg md:text-2xl text-slate-600 max-w-2xl text-left mb-12 font-medium leading-relaxed">
             Membentuk karakter, mengedepankan prestasi, dan membangun ekosistem kolaborasi untuk standar pendidikan setara global.
           </p>
-          
+
           {/* Tombol Kapsul -> Rounded-xl Tegas */}
           <div className="flex flex-col sm:flex-row gap-4 items-start w-full sm:w-auto">
-            <Link 
-              href="/profil" 
+            <Link
+              href="/profil"
               className="px-8 py-4 rounded-xl font-bold transition-all inline-flex items-center justify-center gap-2 bg-accent-500 hover:bg-accent-600 text-slate-900 shadow-lg shadow-accent-500/20 group text-base md:text-lg w-full sm:w-auto hover:-translate-y-1"
             >
               Kenali Sekolah Kami
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link 
-              href="/informasi/berita" 
+            <Link
+              href="/informasi/berita"
               className="px-8 py-4 rounded-xl font-bold transition-all inline-flex items-center justify-center gap-2 bg-white text-brand-600 border-2 border-brand-100 hover:border-brand-600 transition-colors text-base md:text-lg w-full sm:w-auto hover:-translate-y-1"
             >
               Berita & Prestasi
@@ -81,7 +81,7 @@ export default async function Home() {
       <section className="py-24 px-4 md:px-6 z-10 relative bg-white">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
-            
+
             {/* Foto Persegi Tegas dengan Offset Solid (Mondrian Lite) */}
             <div className="order-2 lg:order-1 flex justify-center relative">
               <div className="absolute top-6 -left-6 w-full h-full bg-brand-100 rounded-2xl z-0"></div>
@@ -99,7 +99,7 @@ export default async function Home() {
                 <span className="font-bold text-brand-600 tracking-widest uppercase text-sm">Sambutan Kepala Sekolah</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.1] tracking-tight">
-                Mengukir Prestasi, <br/>Membangun Budi Pekerti
+                Mengukir Prestasi, <br />Membangun Budi Pekerti
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed font-medium">
                 Selamat datang di warta digital institusi kami. Kami senantiasa berkomitmen untuk memberikan layanan pendidikan yang progresif dan adaptif. Bukan sekadar mengejar angka akademis, melainkan menempa karakter para tunas bangsa agar siap menjadi pilar masa depan yang berintegritas.
@@ -126,15 +126,15 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">
-            
+
             {/* Visi */}
             <div className="relative group text-center md:text-left flex flex-col items-center md:items-start bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
               <div className="w-20 h-20 rounded-2xl bg-accent-500 flex items-center justify-center mb-6 text-slate-900">
                 <Lightbulb className="w-10 h-10" />
               </div>
               <h3 className="text-3xl font-black mb-4 text-slate-900">Visi</h3>
-              <div 
-                className="prose prose-slate max-w-none text-slate-600 leading-relaxed font-medium break-words whitespace-normal"
+              <div
+                className="prose prose-slate max-w-none w-full text-left text-slate-600 leading-relaxed font-medium break-words whitespace-normal"
                 dangerouslySetInnerHTML={{ __html: visiHtml }}
               />
             </div>
@@ -145,8 +145,8 @@ export default async function Home() {
                 <Target className="w-10 h-10" />
               </div>
               <h3 className="text-3xl font-black mb-4 text-slate-900">Misi</h3>
-              <div 
-                className="prose prose-slate max-w-none text-slate-600 leading-relaxed font-medium break-words whitespace-normal"
+              <div
+                className="prose prose-slate max-w-none w-full text-left text-slate-600 leading-relaxed font-medium break-words whitespace-normal"
                 dangerouslySetInnerHTML={{ __html: misiHtml }}
               />
             </div>
@@ -157,7 +157,7 @@ export default async function Home() {
 
       {/* 5. ARTIKEL BERITA */}
       <section className="py-32 px-4 md:px-6 relative z-10 bg-white">
-        
+
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col md:flex-row items-end justify-between gap-6 mb-16 border-b border-slate-200 pb-6">
             <div>
@@ -169,7 +169,7 @@ export default async function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
+
             {beritaList && beritaList.length > 0 ? (
               beritaList.map((berita) => (
                 <Link href={`/informasi/berita/${berita.slug}`} key={berita.id} className="flex flex-col group p-6 relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-500 transition-all hover:-translate-y-1">
