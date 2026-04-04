@@ -23,6 +23,7 @@ import {
 import { cn } from '@/lib/utils'
 import { logout } from '@/app/actions/auth.actions'
 import { createClient } from '@/lib/supabase/client'
+import IdleTimer from '@/components/auth/IdleTimer'
 
 const sidebarMenus = [
   { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
@@ -89,6 +90,8 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
+      <IdleTimer timeoutMinutes={15} />
+      
       {/* Mobile Sidebar Overlay */}
       {mobileMenuOpen && (
         <div 
