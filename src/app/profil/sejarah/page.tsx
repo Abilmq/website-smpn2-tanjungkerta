@@ -1,8 +1,14 @@
+import type { Metadata } from 'next'
 import PageHeader from '@/components/ui/PageHeader'
 import { fetchProfilSekolah } from '@/app/actions/profil.actions'
 import { Target, Lightbulb, History } from 'lucide-react'
 
-export const revalidate = 60 // Revalidate cache setiap 60 detik
+export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Sejarah, Visi & Misi | SMPN 2 Tanjungkerta',
+  description: 'Mengenal lebih dekat identitas, tujuan luhur, dan landasan pergerakan SMP Negeri 2 Tanjungkerta.',
+}
 
 export default async function SejarahPage() {
   const profil = await fetchProfilSekolah()

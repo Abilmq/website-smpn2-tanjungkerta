@@ -1,6 +1,14 @@
+import type { Metadata } from 'next'
 import PageHeader from '@/components/ui/PageHeader'
 import { createClient } from '@/lib/supabase/server'
 import GaleriGrid from './GaleriGrid'
+
+export const revalidate = 300
+
+export const metadata: Metadata = {
+  title: 'Galeri Sekolah | SMPN 2 Tanjungkerta',
+  description: 'Album visual kegiatan belajar, rekreasi, dan hari besar SMP Negeri 2 Tanjungkerta.',
+}
 
 export default async function GaleriPage() {
   const supabase = await createClient()

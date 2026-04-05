@@ -1,7 +1,15 @@
+import type { Metadata } from 'next'
 import PageHeader from '@/components/ui/PageHeader'
 import { MapPin, Phone, Mail, Clock } from 'lucide-react'
 import { fetchInfoKontak } from '@/app/actions/kontak.actions'
 import ContactForm from './ContactForm'
+
+export const revalidate = 3600
+
+export const metadata: Metadata = {
+  title: 'Hubungi Kami | SMPN 2 Tanjungkerta',
+  description: 'Kontak, alamat, peta lokasi dan formulir pesan untuk SMP Negeri 2 Tanjungkerta, Sumedang, Jawa Barat.',
+}
 
 export default async function KontakPage() {
   const infoKontak = await fetchInfoKontak()

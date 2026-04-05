@@ -214,3 +214,140 @@ export async function togglePublishBerita(id: string, currentStatus: boolean) {
   revalidatePath('/dashboard/berita')
   revalidatePath('/')
 }
+
+// ==== FITUR BARU: KOMENTAR & SIDEBAR ====
+
+// Fetch daftar berita lainnya (untuk sidebar)
+export async function fetchBeritaLainnya(currentId: string, limit: number = 5) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('berita')
+    .select('id, judul, slug, thumbnail_url, created_at')
+    .eq('published', true)
+    .neq('id', currentId)
+    .order('created_at', { ascending: false })
+    .limit(limit)
+
+  if (error) {
+    console.error("Error fetchBeritaLainnya:", error)
+    return []
+  }
+  return data || []
+}
+
+// Fetch list komentar berita
+export async function fetchKomentar(beritaId: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('komentar_berita')
+    .select('*')
+    .eq('berita_id', beritaId)
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    console.error("Error fetchKomentar:", error)
+    return []
+  }
+  return data || []
+}
+
+// Kirim komentar baru
+export async function kirimKomentar(formData: FormData) {
+  const supabase = await createClient()
+  const berita_id = formData.get('berita_id') as string
+  const nama_pengirim = formData.get('nama_pengirim') as string
+  const isi_komentar = formData.get('isi_komentar') as string
+  const url_path = formData.get('url_path') as string
+
+  if (!berita_id || !nama_pengirim || !isi_komentar) {
+    return { error: 'Semua kolom wajib diisi!' }
+  }
+
+  const { error } = await supabase
+    .from('komentar_berita')
+    .insert({ berita_id, nama_pengirim, isi_komentar })
+
+  if (error) return { error: error.message }
+
+  // Kirim notifikasi ke lonceng Admin
+  await supabase.from('notifikasi').insert({
+    judul: 'Ada Komentar Baru!',
+    pesan: `Pengunjung bernama ${nama_pengirim} baru saja memberikan komentar pada berita.`,
+    tipe: 'info',
+    link_tuju: '/dashboard/berita/komentar',
+  })
+  
+  if (url_path) revalidatePath(url_path)
+  return { success: true }
+}
+
+// Fetch semua komentar (untuk dashboard admin)
+export async function fetchSemuaKomentar() {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return []
+
+  const { data, error } = await supabase
+    .from('komentar_berita')
+    .select(`
+      *,
+      berita:berita_id (
+        judul,
+        slug
+      )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (error) {
+    console.error("Error fetchSemuaKomentar:", error)
+    return []
+  }
+  return data || []
+}
+
+// Balas komentar (oleh admin)
+export async function balasKomentar(formData: FormData) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Tidak berhak membalas komentar.' }
+
+  const komentar_id = formData.get('komentar_id') as string
+  const admin_reply = formData.get('admin_reply') as string
+
+  if (!komentar_id || !admin_reply) {
+    return { error: 'Balasan tidak boleh kosong.' }
+  }
+
+  const { error } = await supabase
+    .from('komentar_berita')
+    .update({ 
+      admin_reply,
+      admin_reply_at: new Date().toISOString()
+    })
+    .eq('id', komentar_id)
+
+  if (error) return { error: error.message }
+  
+  revalidatePath('/dashboard/berita/komentar')
+  return { success: true }
+}
+
+// Hapus komentar (oleh admin)
+export async function hapusKomentar(komentar_id: string) {
+  const supabase = await createClient()
+  
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Tidak memiliki izin.' }
+
+  const { error } = await supabase
+    .from('komentar_berita')
+    .delete()
+    .eq('id', komentar_id)
+
+  if (error) return { error: error.message }
+  
+  revalidatePath('/dashboard/berita/komentar')
+  return { success: true }
+}

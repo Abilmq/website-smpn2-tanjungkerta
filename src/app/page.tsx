@@ -1,11 +1,24 @@
 import Link from 'next/link'
-import { ArrowRight, BookOpen, Trophy, ArrowUpRight, Target, Lightbulb, Calendar, Image as ImageIcon } from 'lucide-react'
+import type { Metadata } from 'next'
+import { ArrowRight, Trophy, ArrowUpRight, Target, Lightbulb, Image as ImageIcon } from 'lucide-react'
 import RunningText from '@/components/ui/RunningText'
 import { fetchProfilSekolah } from '@/app/actions/profil.actions'
 import { createClient } from '@/lib/supabase/server'
 import Image from 'next/image'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'SMP Negeri 2 Tanjungkerta | Sekolah Terakreditasi A',
+  description: 'Website resmi SMP Negeri 2 Tanjungkerta, Sumedang. Sekolah terakreditasi A yang membentuk karakter unggul, berprestasi, dan berakhlak mulia.',
+  keywords: ['SMP Negeri 2 Tanjungkerta', 'SMPN 2 Tanjungkerta', 'Sekolah Tanjungkerta', 'Sumedang'],
+  openGraph: {
+    title: 'SMP Negeri 2 Tanjungkerta',
+    description: 'Website resmi SMP Negeri 2 Tanjungkerta, Sumedang, Jawa Barat',
+    type: 'website',
+    locale: 'id_ID',
+  },
+}
 
 export default async function Home() {
   const profil = await fetchProfilSekolah()
@@ -95,11 +108,24 @@ export default async function Home() {
               <div className="absolute top-6 -left-6 w-full h-full bg-brand-100 rounded-2xl z-0"></div>
               <div className="absolute -bottom-4 right-4 w-32 h-32 bg-accent-400 rounded-tl-3xl rounded-br-2xl z-0"></div>
               <div className="w-[100%] max-w-[400px] aspect-[3/4] relative rounded-2xl overflow-hidden shadow-xl z-10 bg-slate-200 border border-slate-100">
-                <img 
-                  src={profil?.foto_kepsek || "/placeholder-hero.jpg"} 
-                  alt={profil?.nama_kepsek ? `Foto Kepala Sekolah - ${profil.nama_kepsek}` : "Kepala Sekolah SMPN 2 Tanjungkerta"} 
-                  className="w-full h-full object-cover" 
-                />
+                {profil?.foto_kepsek ? (
+                  <Image 
+                    src={profil.foto_kepsek}
+                    alt={`Foto Kepala Sekolah - ${profil.nama_kepsek || 'SMPN 2 Tanjungkerta'}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                  />
+                ) : (
+                  <Image 
+                    src="/kepsek.png"
+                    alt="Kepala Sekolah SMPN 2 Tanjungkerta"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    priority
+                  />
+                )}
               </div>
             </div>
 
@@ -184,7 +210,7 @@ export default async function Home() {
                 <Link href={`/informasi/berita/${berita.slug}`} key={berita.id} className="flex flex-col group p-6 relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-500 transition-all hover:-translate-y-1">
                   <div className="bg-slate-100 rounded-xl mb-6 relative overflow-hidden aspect-video">
                     {berita.thumbnail_url ? (
-                      <img src={berita.thumbnail_url} className="w-full h-full object-cover" alt={berita.judul} />
+                      <Image src={berita.thumbnail_url} fill className="object-cover" alt={berita.judul} sizes="(max-width: 768px) 100vw, 33vw" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-brand-50">
                         <ImageIcon className="w-12 h-12 text-brand-300" />

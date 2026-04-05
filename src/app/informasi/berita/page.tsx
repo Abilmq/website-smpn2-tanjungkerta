@@ -1,7 +1,16 @@
 import PageHeader from '@/components/ui/PageHeader'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { ArrowUpRight, Newspaper } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+import Image from 'next/image'
+
+export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Berita & Prestasi | SMPN 2 Tanjungkerta',
+  description: 'Dokumentasi perjalanan akademik, non-akademik, dan torehan prestasi dari SMP Negeri 2 Tanjungkerta.',
+}
 
 export default async function BeritaPage() {
   const supabase = await createClient()
@@ -33,7 +42,9 @@ export default async function BeritaPage() {
               <Link href={`/informasi/berita/${berita.slug}`} key={berita.id} className="flex flex-col group p-6 relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-500 transition-all hover:-translate-y-1">
                 <div className="bg-slate-100 rounded-xl mb-6 relative overflow-hidden aspect-video">
                   {berita.thumbnail_url ? (
-                    <img src={berita.thumbnail_url} className="w-full h-full object-cover" alt={berita.judul} />
+                    <div className="relative w-full h-full">
+                      <Image src={berita.thumbnail_url} fill className="object-cover" alt={berita.judul} sizes="(max-width: 768px) 100vw, 33vw" />
+                    </div>
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-brand-50">
                       <Newspaper className="w-12 h-12 text-brand-300" />

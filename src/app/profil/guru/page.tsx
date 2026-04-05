@@ -1,6 +1,15 @@
+import type { Metadata } from 'next'
+import Image from 'next/image'
 import PageHeader from '@/components/ui/PageHeader'
 import { Users, GraduationCap, User } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
+
+export const revalidate = 300
+
+export const metadata: Metadata = {
+  title: 'Guru & Tenaga Kependidikan | SMPN 2 Tanjungkerta',
+  description: 'Direktori tenaga pendidik dan kependidikan profesional SMP Negeri 2 Tanjungkerta.',
+}
 
 export default async function GuruPage() {
   const supabase = await createClient()
@@ -43,7 +52,9 @@ export default async function GuruPage() {
                     <div key={item.id} className="group bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-lg hover:border-brand-500 transition-all hover:-translate-y-1">
                       <div className="aspect-[3/4] bg-slate-100 relative overflow-hidden">
                         {item.foto_url ? (
-                          <img src={item.foto_url} alt={item.nama} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <div className="relative w-full h-full">
+                            <Image src={item.foto_url} alt={item.nama} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 25vw" />
+                          </div>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-brand-50">
                             <User className="w-16 h-16 text-brand-200" />
@@ -80,7 +91,9 @@ export default async function GuruPage() {
                     <div key={item.id} className="group bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden hover:shadow-lg hover:border-accent-500 transition-all hover:-translate-y-1">
                       <div className="aspect-[3/4] bg-slate-100 relative overflow-hidden">
                         {item.foto_url ? (
-                          <img src={item.foto_url} alt={item.nama} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          <div className="relative w-full h-full">
+                            <Image src={item.foto_url} alt={item.nama} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 640px) 100vw, 25vw" />
+                          </div>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-accent-50">
                             <User className="w-16 h-16 text-accent-200" />

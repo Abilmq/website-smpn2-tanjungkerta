@@ -1,9 +1,15 @@
+import type { Metadata } from 'next'
 import PageHeader from '@/components/ui/PageHeader'
 import { Trophy, Star } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import EkskulGrid from './EkskulGrid'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Kesiswaan & Ekstrakurikuler | SMPN 2 Tanjungkerta',
+  description: 'Wadah pengembangan minat, bakat, dan prestasi siswa SMP Negeri 2 Tanjungkerta. Daftar ekskul dan catatan prestasi.',
+}
 
 export default async function KesiswaanPage() {
   const supabase = await createClient()

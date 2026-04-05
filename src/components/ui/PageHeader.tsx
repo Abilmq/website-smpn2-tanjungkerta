@@ -16,6 +16,19 @@ interface PageHeaderProps {
 export default function PageHeader({ title, description, crumbs, hidePatternBackground = false }: PageHeaderProps) {
   return (
     <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-brand-900 overflow-hidden text-center z-0">
+      
+      {/* Foto Latar Belakang (Opacity Rendah) */}
+      <div 
+        className="absolute inset-0 z-0 opacity-40 mix-blend-overlay"
+        style={{
+          backgroundImage: "url('/Foto-lingkungan.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      ></div>
+      {/* Gradasi Tambahan untuk memastikan teks terbaca */}
+      <div className="absolute inset-0 bg-gradient-to-t from-brand-900 via-transparent to-brand-900 z-0 opacity-80"></div>
+
       {/* Elemen Dekoratif Premium Geometris */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-accent-500 opacity-20 [clip-path:polygon(100%_0,0_0,100%_100%)]"></div>

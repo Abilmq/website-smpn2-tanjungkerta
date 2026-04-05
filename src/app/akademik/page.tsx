@@ -1,9 +1,15 @@
+import type { Metadata } from 'next'
 import PageHeader from '@/components/ui/PageHeader'
 import Link from 'next/link'
 import { ArrowLeft, ExternalLink, BookOpen, Calendar, Clock } from 'lucide-react'
 import { fetchAkademik } from '@/app/actions/akademik.actions'
 
 export const revalidate = 60
+
+export const metadata: Metadata = {
+  title: 'Akademik | SMPN 2 Tanjungkerta',
+  description: 'Informasi kurikulum, kalender akademik, dan jadwal pelajaran SMP Negeri 2 Tanjungkerta.',
+}
 
 export default async function AkademikPage() {
   const akademik = await fetchAkademik()

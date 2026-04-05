@@ -16,8 +16,22 @@ const outfit = Outfit({
 })
 
 export const metadata: Metadata = {
-  title: 'SMP Negeri 2 Tanjungkerta',
-  description: 'Website Resmi SMP Negeri 2 Tanjungkerta, Sumedang, Jawa Barat',
+  title: {
+    default: 'SMP Negeri 2 Tanjungkerta',
+    template: '%s | SMPN 2 Tanjungkerta',
+  },
+  description: 'Website Resmi SMP Negeri 2 Tanjungkerta, Sumedang, Jawa Barat. Sekolah Terakreditasi A yang berkomitmen membangun generasi berakhlak mulia dan berprestasi.',
+  keywords: ['SMPN 2 Tanjungkerta', 'SMP Negeri 2 Tanjungkerta', 'sekolah Sumedang', 'pendidikan Tanjungkerta'],
+  authors: [{ name: 'SMP Negeri 2 Tanjungkerta' }],
+  openGraph: {
+    type: 'website',
+    locale: 'id_ID',
+    siteName: 'SMP Negeri 2 Tanjungkerta',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default async function RootLayout({

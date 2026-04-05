@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useEffect } from 'react'
+import { useState, useTransition, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -27,7 +27,14 @@ import SessionTimeoutProvider from '@/components/SessionTimeoutProvider'
 
 const sidebarMenus = [
   { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Berita', href: '/dashboard/berita', icon: FileText },
+  { 
+    name: 'Berita', 
+    icon: FileText,
+    submenus: [
+      { name: 'Daftar Berita', href: '/dashboard/berita' },
+      { name: 'Komentar', href: '/dashboard/berita/komentar' }
+    ]
+  },
   { name: 'Pengumuman', href: '/dashboard/pengumuman', icon: Bell },
   { name: 'Galeri', href: '/dashboard/galeri', icon: ImageIcon },
   { 
@@ -64,6 +71,11 @@ export default function DashboardLayout({
   const [userEmail, setUserEmail] = useState<string>('')
   const [userName, setUserName] = useState<string>('Administrator')
   const [userInitial, setUserInitial] = useState<string>('AD')
+  
+  // Sistem Notifikasi Dropdown
+  const [notifications, setNotifications] = useState<any[]>([])
+  const [isNotifOpen, setIsNotifOpen] = useState(false)
+  const notifRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -78,6 +90,21 @@ export default function DashboardLayout({
       }
     }
     fetchUser()
+
+    const fetchNotif = async () => {
+      const supabase = createClient()
+      const { data } = await supabase.from('notifikasi').select('*').order('created_at', { ascending: false }).limit(5)
+      if (data) setNotifications(data)
+    }
+    fetchNotif()
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setIsNotifOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
   const toggleSubmenu = (menuName: string) => {
@@ -151,7 +178,7 @@ export default function DashboardLayout({
                       {expandedMenu === menu.name && (
                         <div className="mt-1 ml-4 pl-4 border-l border-slate-700 space-y-1">
                           {menu.submenus.map((sub) => {
-                            const isActive = pathname === sub.href
+                            const isActive = pathname === sub.href || (pathname?.startsWith(sub.href + '/') ?? false)
                             return (
                               <Link
                                 key={sub.name}
@@ -173,7 +200,7 @@ export default function DashboardLayout({
                   )
                 }
 
-                const isActive = pathname === menu.href
+                const isActive = menu.href === '/dashboard' ? pathname === '/dashboard' : pathname === menu.href || (pathname?.startsWith(menu.href + '/') ?? false)
                 return (
                   <Link
                     key={menu.name}
@@ -252,10 +279,50 @@ export default function DashboardLayout({
               <div className="h-6 w-px bg-slate-200 hidden sm:block"></div>
 
               {/* Notification Bell */}
-              <button className="relative p-2 text-slate-500 hover:text-brand-600 transition-colors rounded-full hover:bg-slate-100">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-              </button>
+              <div className="relative" ref={notifRef}>
+                <button 
+                  onClick={() => setIsNotifOpen(!isNotifOpen)}
+                  className={cn(
+                    "relative p-2 text-slate-500 hover:text-brand-600 transition-colors rounded-full hover:bg-slate-100",
+                    isNotifOpen && "bg-slate-100 text-brand-600"
+                  )}
+                >
+                  <Bell className="w-5 h-5" />
+                  {notifications.length > 0 && (
+                    <span className="absolute top-1 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                  )}
+                </button>
+
+                {isNotifOpen && (
+                  <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden z-50 origin-top-right animate-in fade-in zoom-in-95 duration-200">
+                    <div className="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                      <h3 className="font-bold text-sm text-slate-800">Notifikasi Terbaru</h3>
+                    </div>
+                    <div className="max-h-[350px] overflow-y-auto custom-scrollbar">
+                      {notifications.length === 0 ? (
+                        <div className="p-8 text-center">
+                          <Bell className="w-8 h-8 text-slate-200 mx-auto mb-3" />
+                          <p className="text-sm text-slate-500">Belum ada pemberitahuan.</p>
+                        </div>
+                      ) : (
+                        <div className="divide-y divide-slate-100">
+                          {notifications.map((notif, idx) => (
+                            <Link href={notif.link_tuju || '#'} key={idx} className="block p-4 hover:bg-slate-50 transition-colors">
+                              <h4 className="text-sm font-bold text-slate-800 mb-1 leading-tight">{notif.judul}</h4>
+                              <p className="text-xs text-slate-500 leading-relaxed line-clamp-2">{notif.pesan}</p>
+                              {notif.created_at && (
+                                <p className="text-[10px] text-slate-400 mt-2 font-medium">
+                                  {new Date(notif.created_at).toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                </p>
+                              )}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </header>
 
