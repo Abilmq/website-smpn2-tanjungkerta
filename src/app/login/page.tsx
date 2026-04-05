@@ -3,9 +3,10 @@
 import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Lock, ArrowRight, XCircle } from 'lucide-react'
+import { Mail, Lock, ArrowRight, XCircle, ShieldCheck } from 'lucide-react'
 import { login } from '@/app/actions/auth.actions'
 import { useSearchParams } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 function LoginForm() {
   const [loading, setLoading] = useState(false)
@@ -20,9 +21,17 @@ function LoginForm() {
     <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
       <div className="p-8">
         {errorMsg && (
-          <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm flex items-start gap-3 border border-red-100">
+          <div className={cn(
+            "mb-6 p-4 rounded-xl text-sm flex items-start gap-3 border transition-all animate-in fade-in slide-in-from-top-2",
+            errorMsg.includes('terkunci') || errorMsg.includes('Terlalu banyak')
+              ? "bg-amber-50 text-amber-700 border-amber-100" 
+              : "bg-red-50 text-red-600 border-red-100"
+          )}>
             <XCircle className="w-5 h-5 shrink-0 mt-0.5" />
-            <p>{errorMsg}</p>
+            <div className="space-y-1">
+              <p className="font-semibold">Keamanan Sistem</p>
+              <p className="opacity-90">{errorMsg}</p>
+            </div>
           </div>
         )}
 
@@ -76,10 +85,14 @@ function LoginForm() {
           </button>
         </form>
       </div>
-      <div className="bg-slate-50 px-8 py-5 text-center border-t border-slate-100">
-        <p className="text-xs text-slate-500">
-          Sistem dilindungi dengan 2A (Two-Factor Authentication). <br />
-          Anda akan menerima kode OTP via Gmail.
+      <div className="bg-slate-50 px-8 py-5 text-center border-t border-slate-100 space-y-2">
+        <p className="text-xs text-slate-500 flex items-center justify-center gap-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-brand-600" />
+          Sistem dilindungi 2FA via Gmail & Rate Limiting.
+        </p>
+        <p className="text-[10px] text-slate-400 leading-tight">
+          Penyalahgunaan akses akan dicatat oleh sistem. <br />
+          Maksimal 5x percobaan gagal sebelum akun terkunci otomatis.
         </p>
       </div>
     </div>

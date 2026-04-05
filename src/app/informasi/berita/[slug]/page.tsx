@@ -1,4 +1,3 @@
-import PageHeader from '@/components/ui/PageHeader'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, Tag, Newspaper } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
@@ -21,14 +20,6 @@ export default async function BeritaDetailPage({ params }: { params: Promise<{ s
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 font-sans">
-      <PageHeader 
-        title="Detail Berita" 
-        crumbs={[
-          { label: 'Informasi', href: '/informasi/berita' },
-          { label: 'Berita', href: '/informasi/berita' },
-          { label: 'Detail' }
-        ]} 
-      />
 
       <section className="py-24 px-4 md:px-6 container mx-auto max-w-4xl relative z-10">
         

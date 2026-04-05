@@ -132,7 +132,8 @@ CREATE TABLE IF NOT EXISTS akademik (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     kurikulum TEXT NOT NULL DEFAULT 'Merdeka Belajar',
     deskripsi_kurikulum TEXT,
-    kalender_pdf_url TEXT,
+    kalender_akademik_url TEXT,
+    jadwal_pelajaran_url TEXT,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 

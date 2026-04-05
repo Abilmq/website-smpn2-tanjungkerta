@@ -44,6 +44,14 @@ export default async function Home() {
 
         <div className="container mx-auto max-w-6xl relative z-10 text-left flex flex-col items-start mt-10">
 
+          {/* Badge Akreditasi A */}
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-brand-200 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] mb-8">
+            <div className="flex items-center justify-center w-7 h-7 rounded-full bg-accent-500 text-slate-900">
+              <Trophy className="w-4 h-4" strokeWidth={3} />
+            </div>
+            <span className="text-sm font-black text-brand-700 tracking-wider uppercase">Terakreditasi A</span>
+          </div>
+
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter text-left mb-8 leading-[1] md:leading-[0.9] drop-shadow-sm">
             SMPN <span className="text-brand-600">2</span><br className="hidden md:block" />
             <span className="relative inline-block z-0 text-slate-900 border-b-8 border-accent-500 pb-2">Tanjungkerta</span>
@@ -87,8 +95,11 @@ export default async function Home() {
               <div className="absolute top-6 -left-6 w-full h-full bg-brand-100 rounded-2xl z-0"></div>
               <div className="absolute -bottom-4 right-4 w-32 h-32 bg-accent-400 rounded-tl-3xl rounded-br-2xl z-0"></div>
               <div className="w-[100%] max-w-[400px] aspect-[3/4] relative rounded-2xl overflow-hidden shadow-xl z-10 bg-slate-200 border border-slate-100">
-                {/* Fallback Image jika komponen MaskedImage ditiadakan, kita bisa gunakan Image standard atau biarkan MaskedImage dengan maskType square */}
-                <img src="/placeholder-hero.jpg" alt="Kepala Sekolah SMPN 2 Tanjungkerta" className="w-full h-full object-cover" />
+                <img 
+                  src={profil?.foto_kepsek || "/placeholder-hero.jpg"} 
+                  alt={profil?.nama_kepsek ? `Foto Kepala Sekolah - ${profil.nama_kepsek}` : "Kepala Sekolah SMPN 2 Tanjungkerta"} 
+                  className="w-full h-full object-cover" 
+                />
               </div>
             </div>
 
@@ -101,14 +112,12 @@ export default async function Home() {
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-[1.1] tracking-tight">
                 Mengukir Prestasi, <br />Membangun Budi Pekerti
               </h2>
-              <p className="text-slate-600 text-lg leading-relaxed font-medium">
-                Selamat datang di warta digital institusi kami. Kami senantiasa berkomitmen untuk memberikan layanan pendidikan yang progresif dan adaptif. Bukan sekadar mengejar angka akademis, melainkan menempa karakter para tunas bangsa agar siap menjadi pilar masa depan yang berintegritas.
-              </p>
-              <div className="pt-4">
-                <Link href="/profil/sambutan" className="inline-flex items-center gap-2 font-bold text-brand-600 hover:text-brand-800 transition-colors py-2 border-b-2 border-brand-500 text-lg">
-                  Baca Sambutan Lengkap <ArrowUpRight className="w-5 h-5" />
-                </Link>
-              </div>
+              <div 
+                className="text-slate-600 text-lg leading-relaxed font-medium prose prose-slate max-w-none prose-p:leading-relaxed whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ 
+                  __html: profil?.sambutan_kepsek || '<p>Selamat datang di warta digital institusi kami. Kami senantiasa berkomitmen untuk memberikan layanan pendidikan yang progresif dan adaptif. Bukan sekadar mengejar angka akademis, melainkan menempa karakter para tunas bangsa agar siap menjadi pilar masa depan yang berintegritas.</p>' 
+                }}
+              />
             </div>
 
           </div>

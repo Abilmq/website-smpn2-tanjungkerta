@@ -10,16 +10,19 @@ interface PageHeaderProps {
   title: string;
   description?: string;
   crumbs: BreadcrumbItem[];
+  hidePatternBackground?: boolean;
 }
 
-export default function PageHeader({ title, description, crumbs }: PageHeaderProps) {
+export default function PageHeader({ title, description, crumbs, hidePatternBackground = false }: PageHeaderProps) {
   return (
     <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-brand-900 overflow-hidden text-center z-0">
       {/* Elemen Dekoratif Premium Geometris */}
       <div className="absolute inset-0 z-0">
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-accent-500 opacity-20 [clip-path:polygon(100%_0,0_0,100%_100%)]"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-600 opacity-20 [clip-path:polygon(0_100%,0_0,100%_100%)]"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+        {!hidePatternBackground && (
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
+        )}
       </div>
       
       <div className="container mx-auto px-4 max-w-4xl relative z-10">

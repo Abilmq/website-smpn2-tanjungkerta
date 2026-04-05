@@ -1,18 +1,29 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useRef } from 'react'
 import { Send, Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
 import { kirimPesan } from '@/app/actions/kontak.actions'
+import ReCAPTCHA from 'react-google-recaptcha'
 
 export default function ContactForm() {
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<boolean>(false)
 
+  // State untuk Google reCAPTCHA 
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA>(null)
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError(null)
     setSuccess(false)
+
+    // Validasi reCAPTCHA
+    if (!captchaValue) {
+      setError('Mohon verifikasi bahwa Anda bukan robot dengan mencentang reCAPTCHA.')
+      return
+    }
 
     const formData = new FormData(e.currentTarget)
 
@@ -20,10 +31,15 @@ export default function ContactForm() {
       const result = await kirimPesan(formData)
       if (result?.error) {
         setError(result.error)
+        // Reset kapca kalau gagal
+        recaptchaRef.current?.reset()
+        setCaptchaValue(null)
       } else {
         setSuccess(true)
-        // Reset form
+        // Reset form & captcha
         ;(e.target as HTMLFormElement).reset()
+        recaptchaRef.current?.reset()
+        setCaptchaValue(null)
       }
     })
   }
@@ -100,6 +116,15 @@ export default function ContactForm() {
             placeholder="Tuliskan pesan Anda selengkapnya di sini..."
             className="w-full px-4 py-3 bg-slate-50 border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 rounded-xl outline-none transition-all resize-none text-slate-900"
           ></textarea>
+        </div>
+
+        {/* Widget Google reCAPTCHA v2 Asli */}
+        <div className="flex justify-start">
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+            onChange={(val) => setCaptchaValue(val)}
+          />
         </div>
 
         <button 

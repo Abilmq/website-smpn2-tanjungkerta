@@ -67,27 +67,23 @@ export function Footer({ initialData }: { initialData?: any }) {
             <h3 className="font-heading font-semibold text-white text-lg">Tautan Cepat</h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href="/profil" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors group">
-                  <ArrowRight className="w-4 h-4 opacity-0 -ml-6 group-hover:opacity-100 group-hover:translate-x-6 transition-all" />
-                  <span className="group-hover:translate-x-2 transition-transform">Profil Sekolah</span>
+                <Link href="/profil" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors">
+                  <span>Profil Sekolah</span>
                 </Link>
               </li>
               <li>
-                <Link href="/akademik" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors group">
-                  <ArrowRight className="w-4 h-4 opacity-0 -ml-6 group-hover:opacity-100 group-hover:translate-x-6 transition-all" />
-                  <span className="group-hover:translate-x-2 transition-transform">Info Akademik</span>
+                <Link href="/akademik" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors">
+                  <span>Info Akademik</span>
                 </Link>
               </li>
               <li>
-                <Link href="/kesiswaan" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors group">
-                  <ArrowRight className="w-4 h-4 opacity-0 -ml-6 group-hover:opacity-100 group-hover:translate-x-6 transition-all" />
-                  <span className="group-hover:translate-x-2 transition-transform">Ekstrakurikuler</span>
+                <Link href="/kesiswaan" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors">
+                  <span>Ekstrakurikuler</span>
                 </Link>
               </li>
               <li>
-                <Link href="/informasi/berita" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors group">
-                  <ArrowRight className="w-4 h-4 opacity-0 -ml-6 group-hover:opacity-100 group-hover:translate-x-6 transition-all" />
-                  <span className="group-hover:translate-x-2 transition-transform">Berita Terbaru</span>
+                <Link href="/informasi/berita" className="flex items-center gap-2 text-slate-400 hover:text-brand-400 transition-colors">
+                  <span>Berita Terbaru</span>
                 </Link>
               </li>
             </ul>

@@ -43,7 +43,7 @@ export default async function KesiswaanPage() {
       />
 
       {/* Section Ekskul */}
-      <section className="py-24 px-4 md:px-6 container mx-auto max-w-6xl relative z-10">
+      <section className="py-24 px-4 md:px-6 container mx-auto max-w-6xl">
         <div className="flex items-center gap-3 mb-12">
           <div className="w-12 h-1.5 bg-brand-600"></div>
           <span className="font-bold text-brand-600 tracking-widest uppercase text-sm">Ekstrakurikuler</span>

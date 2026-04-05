@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect } from 'react'
 import { Save, Loader2, AlertCircle, FileText, CheckCircle2 } from 'lucide-react'
 import { fetchAkademik, saveAkademik } from '@/app/actions/akademik.actions'
 import dynamic from 'next/dynamic'
-import ImageUploader from '@/components/editor/ImageUploader'
+import FileUploader from '@/components/editor/FileUploader'
 
 const QuillNoSSRWrapper = dynamic(() => import('react-quill-new'), {
   ssr: false,
@@ -129,19 +129,27 @@ export default function AkademikPage() {
           {/* Media / File Lampiran */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-4">
-              <h3 className="font-semibold text-slate-900 mb-2">Kalender Akademik (Foto/Dokumen)</h3>
-              <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center p-2 relative group">
-                <ImageUploader value={kalenderUrl} onChange={setKalenderUrl} />
-              </div>
-              <p className="text-xs text-slate-500">Upload infografik / bagan Kalender Akademik tahun berjalan (JPG/PNG).</p>
+              <h3 className="font-semibold text-slate-900 mb-2">Kalender Akademik</h3>
+              <FileUploader
+                value={kalenderUrl}
+                onChange={setKalenderUrl}
+                label=""
+                folder="akademik"
+                accept="both"
+              />
+              <p className="text-xs text-slate-500">Upload infografik Kalender Akademik (JPG/PNG) atau dokumen PDF tahun berjalan.</p>
             </div>
 
             <div className="space-y-4">
               <h3 className="font-semibold text-slate-900 mb-2">Jadwal Pelajaran Umum</h3>
-              <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden border-2 border-dashed border-slate-200 bg-slate-50 flex items-center justify-center p-2 relative group">
-                 <ImageUploader value={jadwalUrl} onChange={setJadwalUrl} />
-              </div>
-              <p className="text-xs text-slate-500">Upload waktu/jam masuk, istirahat, dan pulang sekolah (JPG/PNG).</p>
+              <FileUploader
+                value={jadwalUrl}
+                onChange={setJadwalUrl}
+                label=""
+                folder="akademik"
+                accept="both"
+              />
+              <p className="text-xs text-slate-500">Upload jadwal pelajaran (JPG/PNG) atau dokumen PDF perincian jam pelajaran.</p>
             </div>
           </div>
 
