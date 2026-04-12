@@ -3,13 +3,14 @@
 import { useState, Suspense } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Lock, ArrowRight, XCircle, ShieldCheck } from 'lucide-react'
+import { Mail, Lock, ArrowRight, XCircle, ShieldCheck, Eye, EyeOff } from 'lucide-react'
 import { login } from '@/app/actions/auth.actions'
 import { useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 function LoginForm() {
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const searchParams = useSearchParams()
   const errorMsg = searchParams.get('message')
 
@@ -62,11 +63,19 @@ function LoginForm() {
               <input
                 id="password"
                 name="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 required
-                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-colors outline-none"
+                className="w-full pl-11 pr-11 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white transition-colors outline-none"
                 placeholder="••••••••"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
             </div>
           </div>
 
